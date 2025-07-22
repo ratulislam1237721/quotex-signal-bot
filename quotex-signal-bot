@@ -1,0 +1,33 @@
+import time
+import telebot
+import random
+from datetime import datetime
+
+TOKEN = '7935361710:AAHyo3Kgiv-LxT6wvsL0lmUNYXGWAI3KSOQ'
+CHAT_ID = '7245678860'
+
+bot = telebot.TeleBot(TOKEN)
+
+def generate_signal():
+    direction = random.choice(['⬆️ Call', '⬇️ Put'])
+    result = random.choice(['✅ Win', '❌ Loss'])
+    return f"""
+📊 *Quotex Signal Alert*
+
+🕒 Time: {datetime.now().strftime('%H:%M:%S')}
+💹 Pair: URUUSD
+📈 Direction: {direction}
+⌛ Duration: 1 Minute
+
+💡 Result: {result}
+
+⚠️ Trade within next 5 seconds!
+"""
+
+def send_signal():
+    signal = generate_signal()
+    bot.send_message(CHAT_ID, signal, parse_mode='Markdown')
+
+while True:
+    send_signal()
+    time.sleep(300)  # Send every 5 minutes
